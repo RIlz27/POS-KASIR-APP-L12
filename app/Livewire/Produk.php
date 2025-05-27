@@ -53,6 +53,7 @@ class Produk extends Component
     public function pilihEdit($id)
     {
         $this->produkTerpilih = ModelProduk::findOrFail($id);
+        $this->gambar = null; // Reset gambar agar tidak mengganggu input baru
         $this->nama = $this->produkTerpilih->nama;
         $this->kode = $this->produkTerpilih->kode;
         $this->harga = $this->produkTerpilih->harga;
@@ -66,6 +67,7 @@ class Produk extends Component
             [
                 'nama' => 'required',
                 'kode' => ['required', 'unique:produks,kode,' . $this->produkTerpilih->id],
+                'gambar' => 'required|image|max:1024',
                 'harga' => 'required',
                 'stok' => 'required'
             ],
@@ -74,10 +76,12 @@ class Produk extends Component
                 'kode.required' => 'kode Harus Diisi',
                 'kode.unique' => 'kode Telah Digunakan',
                 'harga.required' => 'harga Harus Diisi',
-                'stok.required' => 'stok Harus Diisi'
+                'stok.required' => 'stok Harus Diisi',
+                'gambar.required' => 'Gambar Harus Diisi',
             ]
         );
         $simpan = $this->produkTerpilih;
+        $simpan->gambar = $this->gambar ? $this->gambar->store('produk', 'public') : $simpan->gambar;
         $simpan->nama = $this->nama;
         $simpan->kode = $this->kode;
         $simpan->harga = $this->harga;
@@ -114,7 +118,7 @@ class Produk extends Component
                 'nama' => 'required',
                 'kode' => ['required', 'unique:produks,kode'],
                 'harga' => 'required|numeric',
-                'stok' => 'required|numeric'
+                'stok' => 'required|numeric',
             ],
             [
                 'nama.required' => 'Nama Harus Diisi',

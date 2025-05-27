@@ -110,7 +110,7 @@
                                     <span class="text-danger">{{ $message }}</span><br>
                                 @enderror
 
-                                <label>Gambar Produk (belum bisa digunakan)</label>
+                                <label>Gambar Produk</label>
                                 <input type="file" class="form-control" wire:model='gambar' accept="image/*" />
                                 @error('gambar')
                                     <span class="text-danger">{{ $message }}</span><br>
